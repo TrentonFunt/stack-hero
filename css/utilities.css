@@ -1,0 +1,17 @@
+.center-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.mt-md {
+  margin-top: var(--spacing-md);
+}
+
+.p-sm {
+  padding: var(--spacing-sm);
+}

@@ -5,13 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stack Hero</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/utilities.css" />
+    <link rel="stylesheet" href="css/components.css"/>
   </head>
-
   <body>
-    <div id="game-container">
-      
+
+    <!-- Main Menu -->
+    <div id="menu" class="u-center">
+      <h1>Stack Hero</h1>
+      <button class="button" id="start-button">Play</button>
     </div>
+
+    <!-- Game Container-->
+    <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+    </div>
+
+    <!-- Hud -->
+    <div class="hud u-hidden" id="hud">
+      <div>Score: <span id="score">0</span></div>
+      <div>Level: <span id="level">1</span></div>
+    </div>
+
     <script src="js/main.js" type="module"></script>
   </body>
 
