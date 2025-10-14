@@ -1,0 +1,141 @@
+<!--
+  File: index.html
+  Game: Physics Stack Tower
+  Author: Student Name
+  Date: 2025-01-27
+
+  Description:
+  This file contains the main structure for the Physics Stack Tower game,
+  including the game canvas, UI elements, and control buttons.
+
+  Dependencies:
+  - game.js: Core game logic
+  - physics-stack-tower.css: Game-specific styles
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Hero - Rise Arena</title>
+    <!-- Student: Tiwalade Adegoke | Date: May 16th - October 14th, 2025 -->
+    <link rel="stylesheet" href="../../css/design-system/variables.css">
+    <link rel="stylesheet" href="../../css/design-system/typography.css">
+    <link rel="stylesheet" href="../../css/design-system/components.css">
+    <link rel="stylesheet" href="../../css/design-system/utilities.css">
+    <link rel="stylesheet" href="../../css/games/physics-stack-tower.css">
+</head>
+<body>
+    <!-- Game Header: Contains title and score display -->
+    <header class="game-header">
+        <h1 class="game-title">Physics Stack Tower</h1>
+        <div class="game-stats">
+            <div class="stat-item">
+                <span class="stat-label">Score:</span>
+                <span id="score" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Level:</span>
+                <span id="level" class="stat-value">1</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Blocks:</span>
+                <span id="blocksPlaced" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Combo:</span>
+                <span id="combo" class="stat-value">0</span>
+            </div>
+        </div>
+        
+        <div class="level-info">
+            <div id="levelName" class="level-name">Getting Started</div>
+            <div id="levelDescription" class="level-description">Learn the basics of block stacking. Take your time!</div>
+        </div>
+    </header>
+
+    <!-- Game Canvas Container -->
+    <main class="game-container">
+        <div class="game-canvas-wrapper">
+            <!-- Sound Control -->
+            <div class="sound-controls">
+                <button id="soundToggle" class="sound-btn" aria-label="Toggle Sound">
+                    🔊
+                </button>
+            </div>
+            
+            <canvas id="gameCanvas" width="800" height="600" 
+                    aria-label="Physics Stack Tower game area"
+                    role="img"
+                    tabindex="0">
+                Your browser does not support the canvas element.
+            </canvas>
+            
+            <!-- Screen reader accessible game state -->
+            <div id="gameStateAnnouncer" class="sr-only" aria-live="polite" aria-atomic="true">
+                Game ready. Use spacebar or click to drop blocks.
+            </div>
+            
+
+            <!-- Game Over Overlay -->
+            <div id="gameOverOverlay" class="game-overlay" style="display: none;">
+                <div class="overlay-content">
+                    <h2>Game Over!</h2>
+                    <p>Your tower collapsed!</p>
+                    <div class="final-stats">
+                        <p>Final Score: <span id="finalScore">0</span></p>
+                        <p>Blocks Placed: <span id="finalBlocks">0</span></p>
+                        <p>Level Reached: <span id="finalLevel">1</span></p>
+                    </div>
+                    <div class="overlay-buttons">
+                        <button id="restartBtn" class="btn btn-primary">Try Again</button>
+                        <button id="mainMenuBtn" class="btn btn-secondary">Main Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pause Overlay -->
+            <div id="pauseOverlay" class="game-overlay" style="display: none;">
+                <div class="overlay-content">
+                    <h2>Game Paused</h2>
+                    <div class="overlay-buttons">
+                        <button id="resumeBtn" class="btn btn-primary">Resume</button>
+                        <button id="restartFromPauseBtn" class="btn btn-secondary">Restart</button>
+                        <button id="mainMenuFromPauseBtn" class="btn btn-secondary">Main Menu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Game Controls: Contains control buttons and instructions -->
+    <div class="game-controls" role="toolbar" aria-label="Game Controls">
+        <div class="control-group">
+            <button id="pauseBtn" class="btn btn-secondary" aria-label="Pause Game">
+                <span class="btn-icon">⏸</span> Pause
+            </button>
+            <button id="resetBtn" class="btn btn-secondary" aria-label="Reset Game">
+                <span class="btn-icon">↺</span> Reset
+            </button>
+        </div>
+        
+        <div class="instructions">
+            <p><strong>How to Play:</strong></p>
+            <p>Click or press SPACE to drop blocks and build the tallest tower!</p>
+            <p>Perfect alignments give bonus points. Misaligned blocks shrink!</p>
+            <p><strong>Levels:</strong> Complete blocks to advance through 7 progressively challenging levels!</p>
+        </div>
+    </div>
+
+    <!-- Game Scripts -->
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/events.js"></script>
+    <script src="../../js/utils/helpers.js"></script>
+    <script src="../../js/games/physics-stack-tower/audio.js"></script>
+    <script src="../../js/games/physics-stack-tower/levels.js"></script>
+    <script src="../../js/games/physics-stack-tower/physics.js"></script>
+    <script src="../../js/games/physics-stack-tower/renderer.js"></script>
+    <script src="../../js/games/physics-stack-tower/game.js"></script>
+</body>
+</html>
