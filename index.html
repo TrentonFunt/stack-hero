@@ -1,34 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stack Hero</title>
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/utilities.css" />
-    <link rel="stylesheet" href="css/components.css"/>
-  </head>
-  <body>
-
+    <title>Stack Hero - Rise Arena</title>
+    <!-- Student: Tiwalade Adegoke | Date: May 16th - October 14th, 2025 -->
+    <link rel="stylesheet" href="css/design-system/variables.css">
+    <link rel="stylesheet" href="css/design-system/typography.css">
+    <link rel="stylesheet" href="css/design-system/components.css">
+    <link rel="stylesheet" href="css/design-system/utilities.css">
+    <link rel="stylesheet" href="css/main-menu.css">
+</head>
+<body>
     <!-- Main Menu -->
-    <div id="menu" class="u-center">
-      <h1>Stack Hero</h1>
-      <button class="button" id="start-button">Play</button>
+    <div class="main-menu">
+        <h1 class="game-title">Stack Hero</h1>
+        <p class="game-subtitle">Build the tallest tower in Rise Arena</p>
+        
+        <div class="menu-buttons">
+            <a href="games/physics-stack-tower/index.html" class="menu-btn menu-btn-primary">
+                🎮 Play Physics Stack Tower
+            </a>
+            <button class="menu-btn menu-btn-secondary" onclick="showGameInfo()">
+                ℹ️ Game Info
+            </button>
+        </div>
+        
+        <div class="game-stats">
+            <div class="stat-item">
+                <span class="stat-label">High Score:</span>
+                <span class="stat-value" id="highScore">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Games Played:</span>
+                <span class="stat-value" id="gamesPlayed">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Best Level:</span>
+                <span class="stat-value" id="bestLevel">1</span>
+            </div>
+        </div>
+        
+        <div class="game-info" id="gameInfo" style="display: none;">
+            <h3>About Physics Stack Tower</h3>
+            <p>Drop moving blocks to build the tallest tower possible! Perfect alignments give bonus points, while misaligned drops shrink blocks and make the challenge harder.</p>
+            <p><strong>Features:</strong></p>
+            <ul style="text-align: left; color: var(--color-text-secondary);">
+                <li>7 levels with increasing difficulty</li>
+                <li>3 difficulty modes (Easy, Medium, Hard)</li>
+                <li>Sound effects and visual feedback</li>
+                <li>Physics-based tower stability</li>
+                <li>Score tracking and progress saving</li>
+            </ul>
+            <p><strong>Controls:</strong> Click or press SPACE to drop blocks</p>
+        </div>
     </div>
 
-    <!-- Game Container-->
-    <div id="game-container">
-    <canvas id="game-canvas"></canvas>
-    </div>
-
-    <!-- Hud -->
-    <div class="hud u-hidden" id="hud">
-      <div>Score: <span id="score">0</span></div>
-      <div>Level: <span id="level">1</span></div>
-    </div>
-
-    <script src="js/main.js" type="module"></script>
-  </body>
-
+    <script>
+        // Load and display game statistics
+        function loadGameStats() {
+            const highScores = JSON.parse(localStorage.getItem('physicsStackTower_highScores') || '[]');
+            const gamesPlayed = parseInt(localStorage.getItem('physicsStackTower_gamesPlayed') || '0');
+            
+            if (highScores.length > 0) {
+                const bestScore = Math.max(...highScores.map(score => score.score));
+                const bestLevel = Math.max(...highScores.map(score => score.level));
+                
+                document.getElementById('highScore').textContent = bestScore.toLocaleString();
+                document.getElementById('bestLevel').textContent = bestLevel;
+            }
+            
+            document.getElementById('gamesPlayed').textContent = gamesPlayed;
+        }
+        
+        // Show/hide game info
+        function showGameInfo() {
+            const gameInfo = document.getElementById('gameInfo');
+            if (gameInfo.style.display === 'none') {
+                gameInfo.style.display = 'block';
+            } else {
+                gameInfo.style.display = 'none';
+            }
+        }
+        
+        // Load stats when page loads
+        document.addEventListener('DOMContentLoaded', loadGameStats);
+    </script>
+</body>
 </html>

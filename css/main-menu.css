@@ -1,0 +1,306 @@
+/**
+ * @file main-menu.css
+ * @game Stack Hero - Main Menu
+ * @author Tiwalade Adegoke
+ * @date May 16th - October 14th, 2025
+ *
+ * @description
+ * Main menu styles for the Stack Hero platform. Provides a professional
+ * and polished interface for game selection and statistics display.
+ *
+ * @dependencies
+ * - css/design-system/variables.css
+ * - css/design-system/typography.css
+ */
+
+/* ========================================
+   MAIN MENU LAYOUT
+   ======================================== */
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--color-background) 0%, #e8f4f8 100%);
+  font-family: var(--font-family-base);
+}
+
+.main-menu {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
+.game-title {
+  font-family: var(--font-family-heading);
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-lg);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.02em;
+}
+
+.game-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-2xl);
+  font-weight: 400;
+}
+
+/* ========================================
+   MENU BUTTONS
+   ======================================== */
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  align-items: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.menu-btn {
+  min-width: 200px;
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  border-radius: var(--border-radius-lg);
+  transition: all var(--transition-normal);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  border: none;
+}
+
+.menu-btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.menu-btn-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.menu-btn-secondary {
+  background: var(--color-secondary);
+  color: white;
+}
+
+.menu-btn-secondary:hover {
+  background: #2ba8c4;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   GAME STATISTICS
+   ======================================== */
+
+.game-stats {
+  background: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-top: var(--spacing-xl);
+  min-width: 300px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-md);
+}
+
+.stat-item:last-child {
+  margin-bottom: 0;
+}
+
+.stat-label {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.stat-value {
+  color: var(--color-primary);
+  font-weight: 700;
+  font-family: var(--font-family-heading);
+}
+
+/* ========================================
+   GAME INFORMATION
+   ======================================== */
+
+.game-info {
+  max-width: 600px;
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: var(--border-radius-lg);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-md);
+}
+
+.game-info h3 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  font-family: var(--font-family-heading);
+}
+
+.game-info p {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-sm);
+}
+
+.game-info p:last-child {
+  margin-bottom: 0;
+}
+
+.game-info ul {
+  text-align: left;
+  color: var(--color-text-secondary);
+  margin: var(--spacing-sm) 0;
+  padding-left: var(--spacing-lg);
+}
+
+.game-info li {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 3rem;
+  }
+  
+  .menu-buttons {
+    width: 100%;
+  }
+  
+  .menu-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .game-stats {
+    min-width: auto;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .game-info {
+    margin: var(--spacing-lg);
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-menu {
+    padding: var(--spacing-lg);
+  }
+  
+  .game-title {
+    font-size: 2.5rem;
+  }
+  
+  .game-subtitle {
+    font-size: var(--font-size-md);
+  }
+  
+  .menu-btn {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-md);
+  }
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-title {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.game-subtitle {
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.menu-buttons {
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.game-stats {
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+.menu-btn:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.menu-btn:active {
+  transform: translateY(0);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .game-title {
+    text-shadow: none;
+  }
+  
+  .menu-btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .menu-btn {
+    transition: none;
+  }
+  
+  .menu-btn:hover {
+    transform: none;
+  }
+  
+  .game-title,
+  .game-subtitle,
+  .menu-buttons,
+  .game-stats {
+    animation: none;
+  }
+}
