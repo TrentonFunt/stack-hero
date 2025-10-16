@@ -26,8 +26,28 @@
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--color-background) 0%, #e8f4f8 100%);
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(120, 219, 255, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, var(--color-background) 0%, #e8f4f8 100%);
   padding: var(--spacing-lg);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.physics-stack-tower::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>'),
+    linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.03) 50%, transparent 51%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ========================================
@@ -37,10 +57,10 @@
 .game-header {
   width: 100%;
   max-width: 1000px;
+  margin: 0 auto var(--spacing-lg) auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-lg);
   padding: var(--spacing-md);
   background: var(--color-surface);
   border-radius: var(--border-radius-lg);
@@ -128,6 +148,7 @@
   align-items: center;
   width: 100%;
   max-width: 1000px;
+  margin: 0 auto;
   position: relative;
   background: 
     radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
@@ -221,10 +242,10 @@
 .game-controls {
   width: 100%;
   max-width: 1000px;
+  margin: var(--spacing-lg) auto 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: var(--spacing-lg);
   padding: var(--spacing-lg);
   background: var(--color-surface);
   border-radius: var(--border-radius-lg);
