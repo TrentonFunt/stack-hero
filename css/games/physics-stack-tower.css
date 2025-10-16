@@ -16,7 +16,7 @@
    GAME LAYOUT
    ======================================== */
 
-body.physics-stack-tower {
+body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -30,7 +30,7 @@ body.physics-stack-tower {
   overflow-x: hidden;
 }
 
-body.physics-stack-tower::before {
+body::before {
   content: '';
   position: fixed;
   top: 0;
