@@ -30,10 +30,12 @@ With increasing speed, score combos, and gravity always at play, Stack Hero is e
 
 ### **Visual Effects**
 - Particle explosion system for perfect drops and collapses
-- Smooth level transition animations
+- Smooth level transition animations with enhanced modals
 - Enhanced score popups with animations
-- Modern gradient backgrounds and styling
+- Artistic game-themed backgrounds with gradients and grid patterns
 - Difficulty stars indicator
+- Realistic block dropping from height with visual gaps
+- Game completion celebration popup for finishing all levels
 
 ### **Audio System**
 - Procedural sound effects using Web Audio API
@@ -48,6 +50,7 @@ With increasing speed, score combos, and gravity always at play, Stack Hero is e
 3. **Imperfect drops** shrink the block and reset your combo
 4. **Complete 3 blocks** per level to advance
 5. **Build the tallest tower** possible across all 7 levels
+6. **Complete all levels** to unlock the special game completion celebration!
 
 ## 🛠️ Technical Implementation
 

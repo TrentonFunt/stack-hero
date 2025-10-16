@@ -26,10 +26,11 @@
     <link rel="stylesheet" href="../../css/design-system/utilities.css">
     <link rel="stylesheet" href="../../css/games/physics-stack-tower.css">
 </head>
-<body class="physics-stack-tower">
-    <!-- Game Header: Contains title and score display -->
-    <header class="game-header">
-        <h1 class="game-title">Physics Stack Tower</h1>
+<body>
+    <div class="physics-stack-tower">
+        <!-- Game Header: Contains title and score display -->
+        <header class="game-header">
+        <h1 class="game-title">Stack Hero</h1>
         <div class="game-stats">
             <div class="stat-item">
                 <span class="stat-label">Score:</span>
@@ -65,7 +66,7 @@
                 </button>
             </div>
             
-            <canvas id="gameCanvas" width="800" height="600" 
+            <canvas id="gameCanvas" width="800" height="700" 
                     aria-label="Physics Stack Tower game area"
                     role="img"
                     tabindex="0">
@@ -126,6 +127,7 @@
             <p>Perfect alignments give bonus points. Misaligned blocks shrink!</p>
             <p><strong>Levels:</strong> Complete blocks to advance through 7 progressively challenging levels!</p>
         </div>
+    </div>
     </div>
 
     <!-- Game Scripts -->

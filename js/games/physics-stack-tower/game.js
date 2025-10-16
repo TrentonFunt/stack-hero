@@ -136,7 +136,7 @@ class Block {
       }
       
       // Keep block within canvas bounds vertically - restrict to 1 block height deviation
-      const baseY = gameState.config.canvasHeight - (gameState.tower.length + 1) * gameState.config.blockHeight;
+      const baseY = gameState.config.canvasHeight - (gameState.tower.length + 2) * gameState.config.blockHeight;
       const maxDeviation = gameState.config.blockHeight; // 1 block height
       const minY = baseY - maxDeviation;
       const maxY = baseY + maxDeviation;
@@ -292,7 +292,7 @@ function generateNewBlock() {
     blockId,
     blockWidth,
     0, // Start from left edge
-    gameState.config.canvasHeight - (gameState.tower.length + 1) * gameState.config.blockHeight,
+    gameState.config.canvasHeight - (gameState.tower.length + 2) * gameState.config.blockHeight,
     blockSpeed,
     true
   );
@@ -384,8 +384,6 @@ function dropBlock() {
   const thresholdBlock = currentBlock.width < lastTowerBlock.width ? currentBlock : lastTowerBlock;
   const perfectAlignment = overlap >= (thresholdBlock.width * gameState.perfectThreshold);
   
-  // Debug logging (can be removed in production)
-  // console.log(`Block placement - Overlap: ${overlap.toFixed(1)}, Threshold: ${(thresholdBlock.width * gameState.perfectThreshold).toFixed(1)}, Perfect: ${perfectAlignment}, Level: ${gameState.level}`);
   
   if (perfectAlignment) {
     // Perfect drop - no width reduction, bonus points
@@ -436,7 +434,6 @@ function dropBlock() {
     // Check if block is too small (but be more forgiving)
     const minWidth = Math.max(gameState.config.minBlockWidth * 0.7, 20); // More forgiving minimum width
     if (currentBlock.width < minWidth) {
-      // console.log(`Block too small! Width: ${currentBlock.width}, Min: ${minWidth}, Level: ${gameState.level}`);
       gameState.isActive = false;
       
       // Play collapse sound
@@ -467,7 +464,12 @@ function dropBlock() {
   // Check for level completion
   const levelConfig = gameState.currentLevelConfig;
   if (levelConfig.blocksToComplete && gameState.blocksInCurrentLevel >= levelConfig.blocksToComplete) {
-    // console.log(`Level ${gameState.level} completed! Blocks in level: ${gameState.blocksInCurrentLevel}, Required: ${levelConfig.blocksToComplete}`);
+    // Check if this is the final level (Level 7)
+    if (gameState.level === 7) {
+      // Game completed! Show special completion popup
+      showGameCompleted();
+      return;
+    }
     
     // Level completed - advance to next level
     gameState.level++;
@@ -476,8 +478,6 @@ function dropBlock() {
     // Get new level configuration
     const newLevelConfig = getLevelConfig(gameState.level);
     const newLevelParams = calculateLevelParameters(gameState.level);
-    
-    // console.log(`Advancing to level ${gameState.level}:`, newLevelConfig);
     
     // Update level settings
     gameState.currentLevelConfig = newLevelConfig;
@@ -746,8 +746,8 @@ function showLevelComplete(newLevelConfig) {
     box-shadow: var(--shadow-lg);
     z-index: 2000;
     text-align: center;
-    max-width: 450px;
-    width: 90%;
+    max-width: 350px;
+    width: 80%;
     border: 2px solid var(--color-primary);
     animation: levelCompleteSlideIn 0.5s ease-out;
   `;
@@ -767,6 +767,92 @@ function showLevelComplete(newLevelConfig) {
       }, 300);
     }
   }, 2000);
+}
+
+/**
+ * Shows game completion popup when all levels are finished
+ */
+function showGameCompleted() {
+  // Pause the game
+  gameState.isPaused = true;
+  gameState.isActive = false;
+  
+  // Create game completion popup
+  const popup = document.createElement('div');
+  popup.className = 'game-complete-popup';
+  popup.innerHTML = `
+    <div class="game-complete-content">
+      <div class="game-complete-header">
+        <h2>🎉 CONGRATULATIONS! 🎉</h2>
+        <div class="completion-badge">GAME COMPLETED!</div>
+      </div>
+      <div class="completion-info">
+        <h3>🏆 You've mastered Stack Hero!</h3>
+        <p>You've successfully completed all 7 levels and conquered every challenge!</p>
+      </div>
+      <div class="final-stats">
+        <div class="stat">
+          <span class="stat-label">Final Score:</span>
+          <span class="stat-value">${gameState.score.toLocaleString()}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Total Blocks:</span>
+          <span class="stat-value">${gameState.blocksPlaced}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Levels Completed:</span>
+          <span class="stat-value">7/7</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Best Combo:</span>
+          <span class="stat-value">${gameState.comboStreak}</span>
+        </div>
+      </div>
+      <div class="completion-actions">
+        <button id="playAgainBtn" class="btn btn-primary">🎮 Play Again</button>
+        <button id="mainMenuBtn" class="btn btn-secondary">🏠 Main Menu</button>
+      </div>
+    </div>
+  `;
+  
+  popup.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: var(--spacing-2xl);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    z-index: 3000;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    border: 3px solid #ffd700;
+    animation: gameCompleteSlideIn 0.8s ease-out;
+    color: white;
+  `;
+  
+  document.body.appendChild(popup);
+  
+  // Add event listeners for buttons
+  document.getElementById('playAgainBtn').addEventListener('click', () => {
+    document.body.removeChild(popup);
+    resetGame();
+  });
+  
+  document.getElementById('mainMenuBtn').addEventListener('click', () => {
+    window.location.href = '../../index.html';
+  });
+  
+  // Play completion sound
+  const audioManager = getAudioManager();
+  if (audioManager) {
+    audioManager.playSound('levelComplete');
+  }
+  
+  // Save final score
+  saveGameState();
 }
 
 /**
@@ -1354,7 +1440,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const audioManager = getAudioManager();
   if (audioManager) {
     // Don't auto-start music - wait for user interaction
-    // console.log('Audio ready - will start after user interaction');
   }
   
   // Start game loop
