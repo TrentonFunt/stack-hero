@@ -15,6 +15,148 @@
  */
 
 /**
+ * Game Loader System
+ * Handles the loading screen and progress simulation
+ */
+class GameLoader {
+  constructor() {
+    this.loader = document.getElementById('gameLoader');
+    this.progressFill = document.getElementById('progressFill');
+    this.loadingText = document.getElementById('loadingText');
+    this.loadingPercent = document.getElementById('loadingPercent');
+    this.gameContainer = document.querySelector('.physics-stack-tower');
+    
+    this.loadingSteps = [
+      { text: 'Initializing game engine...', duration: 800 },
+      { text: 'Loading physics system...', duration: 600 },
+      { text: 'Preparing block textures...', duration: 500 },
+      { text: 'Setting up audio system...', duration: 700 },
+      { text: 'Loading level configurations...', duration: 400 },
+      { text: 'Initializing renderer...', duration: 600 },
+      { text: 'Preparing game world...', duration: 500 },
+      { text: 'Almost ready...', duration: 300 }
+    ];
+    
+    this.currentStep = 0;
+    this.totalSteps = this.loadingSteps.length;
+  }
+  
+  /**
+   * Start the loading process
+   */
+  async startLoading() {
+    if (!this.loader) return;
+    
+    // Show loader, hide game
+    this.loader.style.display = 'flex';
+    if (this.gameContainer) {
+      this.gameContainer.style.display = 'none';
+    }
+    
+    // Simulate loading progress
+    await this.simulateLoading();
+    
+    // Complete loading
+    await this.completeLoading();
+  }
+  
+  /**
+   * Simulate realistic loading progress
+   */
+  async simulateLoading() {
+    for (let i = 0; i < this.totalSteps; i++) {
+      const step = this.loadingSteps[i];
+      const progress = ((i + 1) / this.totalSteps) * 100;
+      
+      // Update UI
+      this.updateProgress(progress, step.text);
+      
+      // Wait for step duration
+      await this.delay(step.duration);
+    }
+  }
+  
+  /**
+   * Update progress bar and text
+   */
+  updateProgress(percent, text) {
+    if (this.progressFill) {
+      this.progressFill.style.width = `${percent}%`;
+    }
+    
+    if (this.loadingText) {
+      this.loadingText.textContent = text;
+    }
+    
+    if (this.loadingPercent) {
+      this.loadingPercent.textContent = `${Math.round(percent)}%`;
+    }
+  }
+  
+  /**
+   * Complete the loading process
+   */
+  async completeLoading() {
+    // Final progress update
+    this.updateProgress(100, 'Ready to play!');
+    
+    // Wait a moment for user to see completion
+    await this.delay(500);
+    
+    // Fade out loader
+    this.fadeOut();
+  }
+  
+  /**
+   * Fade out the loader and show game
+   */
+  fadeOut() {
+    if (this.loader) {
+      this.loader.classList.add('fade-out');
+      
+      // After fade animation completes, hide loader and show game
+      setTimeout(() => {
+        this.loader.style.display = 'none';
+        if (this.gameContainer) {
+          this.gameContainer.style.display = 'flex';
+        }
+        
+        // Trigger game initialization
+        this.onLoadingComplete();
+      }, 800); // Match CSS animation duration
+    }
+  }
+  
+  /**
+   * Callback when loading is complete
+   */
+  onLoadingComplete() {
+    // This will be called by the game initialization
+    if (window.onGameLoaderComplete) {
+      window.onGameLoaderComplete();
+    }
+  }
+  
+  /**
+   * Utility function for delays
+   */
+  delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+}
+
+// Global loader instance
+let gameLoader = null;
+
+/**
+ * Initialize the game loader
+ */
+function initGameLoader() {
+  gameLoader = new GameLoader();
+  return gameLoader;
+}
+
+/**
  * Game state object - stores all current game information
  * @type {Object}
  */
@@ -1406,66 +1548,75 @@ function showScorePopup(points, isPerfect) {
 
 
 // Initialize game when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize audio manager
-  initAudioManager({
-    masterVolume: 0.7,
-    sfxVolume: 0.8,
-    musicVolume: 0.5
-  });
+document.addEventListener('DOMContentLoaded', async function() {
+  // Initialize the game loader
+  const loader = initGameLoader();
   
-  // Initialize physics engine
-  initPhysicsEngine({
-    gravity: 0.5,
-    friction: 0.8,
-    bounce: 0.3,
-    stabilityThreshold: 0.3
-  });
+  // Start loading process
+  await loader.startLoading();
   
-  // Initialize renderer
-  const canvas = document.getElementById('gameCanvas');
-  if (canvas) {
-    initRenderer(canvas, {
-      blockHeight: 30,
-      shadowOffset: 3,
-      animationSpeed: 0.1,
-      particleCount: 20
+  // Set up callback for when loading completes
+  window.onGameLoaderComplete = function() {
+    // Initialize audio manager
+    initAudioManager({
+      masterVolume: 0.7,
+      sfxVolume: 0.8,
+      musicVolume: 0.5
     });
-  }
-  
-  // Initialize game
-  PhysicsStackTowerGame.init(document.body);
-  
-  // Start background music only after user interaction
-  const audioManager = getAudioManager();
-  if (audioManager) {
-    // Don't auto-start music - wait for user interaction
-  }
-  
-  // Start game loop
-  let lastTime = 0;
-  function gameLoop(currentTime) {
-    const deltaTime = currentTime - lastTime;
-    lastTime = currentTime;
     
-    // Cap deltaTime to prevent large jumps
-    const cappedDeltaTime = Math.min(deltaTime, 1000 / 30); // Max 30 FPS
+    // Initialize physics engine
+    initPhysicsEngine({
+      gravity: 0.5,
+      friction: 0.8,
+      bounce: 0.3,
+      stabilityThreshold: 0.3
+    });
     
-    // Update game
-    updateGame(cappedDeltaTime);
-    
-    // Render game
-    const renderer = getRenderer();
-    if (renderer) {
-      renderer.render(currentTime);
+    // Initialize renderer
+    const canvas = document.getElementById('gameCanvas');
+    if (canvas) {
+      initRenderer(canvas, {
+        blockHeight: 30,
+        shadowOffset: 3,
+        animationSpeed: 0.1,
+        particleCount: 20
+      });
     }
     
-    // Continue loop
+    // Initialize game
+    PhysicsStackTowerGame.init(document.body);
+    
+    // Start background music only after user interaction
+    const audioManager = getAudioManager();
+    if (audioManager) {
+      // Don't auto-start music - wait for user interaction
+    }
+    
+    // Start game loop
+    let lastTime = 0;
+    function gameLoop(currentTime) {
+      const deltaTime = currentTime - lastTime;
+      lastTime = currentTime;
+      
+      // Cap deltaTime to prevent large jumps
+      const cappedDeltaTime = Math.min(deltaTime, 1000 / 30); // Max 30 FPS
+      
+      // Update game
+      updateGame(cappedDeltaTime);
+      
+      // Render game
+      const renderer = getRenderer();
+      if (renderer) {
+        renderer.render(currentTime);
+      }
+      
+      // Continue loop
+      requestAnimationFrame(gameLoop);
+    }
+    
+    // Start the game loop
     requestAnimationFrame(gameLoop);
-  }
-  
-  // Start the game loop
-  requestAnimationFrame(gameLoop);
+  };
 });
 
 // Export for use by the platform

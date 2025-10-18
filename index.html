@@ -14,30 +14,89 @@
 <body>
     <!-- Main Menu -->
     <div class="main-menu">
-        <h1 class="game-title">Stack Hero</h1>
-        <p class="game-subtitle">Build the tallest tower in Rise Arena</p>
-        
-        <div class="menu-buttons">
-            <a href="games/physics-stack-tower/index.html" class="menu-btn menu-btn-primary">
-                🎮 Play Stack Hero
-            </a>
-            <button class="menu-btn menu-btn-secondary" onclick="showGameInfo()">
-                ℹ️ Game Info
-            </button>
+        <!-- Animated Background Elements -->
+        <div class="menu-background">
+            <div class="floating-blocks">
+                <div class="floating-block block-1"></div>
+                <div class="floating-block block-2"></div>
+                <div class="floating-block block-3"></div>
+                <div class="floating-block block-4"></div>
+                <div class="floating-block block-5"></div>
+            </div>
+            <div class="menu-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
         </div>
-        
-        <div class="game-stats">
-            <div class="stat-item">
-                <span class="stat-label">High Score:</span>
-                <span class="stat-value" id="highScore">0</span>
+
+        <!-- Main Content -->
+        <div class="menu-content">
+            <div class="game-header">
+                <div class="title-container">
+                    <h1 class="game-title">
+                        <span class="title-text">Stack Hero</span>
+                        <div class="title-glow"></div>
+                    </h1>
+                    <div class="title-subtitle">
+                        <span class="subtitle-text">Build the Ultimate Tower</span>
+                        <div class="subtitle-accent">🏗️</div>
+                    </div>
+                </div>
+                
+                <div class="game-preview">
+                    <div class="mini-tower">
+                        <div class="mini-block"></div>
+                        <div class="mini-block"></div>
+                        <div class="mini-block"></div>
+                        <div class="mini-block"></div>
+                        <div class="mini-block"></div>
+                    </div>
+                </div>
             </div>
-            <div class="stat-item">
-                <span class="stat-label">Games Played:</span>
-                <span class="stat-value" id="gamesPlayed">0</span>
+            
+            <div class="menu-buttons">
+                <a href="games/physics-stack-tower/index.html" class="menu-btn menu-btn-primary">
+                    <span class="btn-icon">🎮</span>
+                    <span class="btn-text">Play Stack Hero</span>
+                    <div class="btn-glow"></div>
+                </a>
+                <button class="menu-btn menu-btn-secondary" onclick="showGameInfo()">
+                    <span class="btn-icon">ℹ️</span>
+                    <span class="btn-text">Game Info</span>
+                </button>
             </div>
-            <div class="stat-item">
-                <span class="stat-label">Best Level:</span>
-                <span class="stat-value" id="bestLevel">1</span>
+            
+            <div class="game-stats">
+                <div class="stats-header">
+                    <h3>🏆 Your Progress</h3>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-content">
+                            <span class="stat-label">High Score</span>
+                            <span class="stat-value" id="highScore">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-content">
+                            <span class="stat-label">Games Played</span>
+                            <span class="stat-value" id="gamesPlayed">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">🏗️</div>
+                        <div class="stat-content">
+                            <span class="stat-label">Best Level</span>
+                            <span class="stat-value" id="bestLevel">1</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         

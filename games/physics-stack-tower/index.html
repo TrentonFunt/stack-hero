@@ -27,7 +27,57 @@
     <link rel="stylesheet" href="../../css/games/physics-stack-tower.css">
 </head>
 <body>
-    <div class="physics-stack-tower">
+    <!-- Game Loading Screen -->
+    <div id="gameLoader" class="game-loader">
+        <div class="loader-content">
+            <div class="loader-header">
+                <h1 class="loader-title">Stack Hero</h1>
+                <p class="loader-subtitle">Building the ultimate tower...</p>
+            </div>
+            
+            <div class="loader-animation">
+                <div class="tower-loader">
+                    <div class="block-loader block-1"></div>
+                    <div class="block-loader block-2"></div>
+                    <div class="block-loader block-3"></div>
+                    <div class="block-loader block-4"></div>
+                    <div class="block-loader block-5"></div>
+                </div>
+                <div class="loading-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+            </div>
+            
+            <div class="loader-progress">
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div id="loadingText" class="loading-text">Initializing game engine...</div>
+                <div id="loadingPercent" class="loading-percent">0%</div>
+            </div>
+            
+            <div class="loader-tips">
+                <div class="tip-item">
+                    <span class="tip-icon">💡</span>
+                    <span class="tip-text">Perfect alignment gives bonus points!</span>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🎯</span>
+                    <span class="tip-text">Each level has unique challenges!</span>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🏆</span>
+                    <span class="tip-text">Build the tallest tower possible!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="physics-stack-tower" style="display: none;">
         <!-- Game Header: Contains title and score display -->
         <header class="game-header">
         <h1 class="game-title">Stack Hero</h1>
