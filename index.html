@@ -64,7 +64,7 @@
                     <span class="btn-text">Play Stack Hero</span>
                     <div class="btn-glow"></div>
                 </a>
-                <button class="menu-btn menu-btn-secondary" onclick="showGameInfo()">
+                <button class="menu-btn menu-btn-secondary">
                     <span class="btn-icon">ℹ️</span>
                     <span class="btn-text">Game Info</span>
                 </button>
@@ -98,52 +98,24 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="game-info" id="gameInfo" style="display: none;">
-            <h3>About Physics Stack Tower</h3>
-            <p>Drop moving blocks to build the tallest tower possible! Perfect alignments give bonus points, while misaligned drops shrink blocks and make the challenge harder.</p>
-            <p><strong>Features:</strong></p>
-            <ul style="text-align: left; color: var(--color-text-secondary);">
-                <li>7 levels with increasing difficulty</li>
-                <li>3 difficulty modes (Easy, Medium, Hard)</li>
-                <li>Sound effects and visual feedback</li>
-                <li>Physics-based tower stability</li>
-                <li>Score tracking and progress saving</li>
-            </ul>
-            <p><strong>Controls:</strong> Click or press SPACE to drop blocks</p>
+            
+            <div class="game-info" id="gameInfo" style="display: none;">
+                <h3>About Stack Hero</h3>
+                <p>Drop moving blocks to build the tallest tower possible! Perfect alignments give bonus points, while misaligned drops shrink blocks and make the challenge harder.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>7 levels with increasing difficulty</li>
+                    <li>Progressive difficulty with special mechanics</li>
+                    <li>Sound effects and visual feedback</li>
+                    <li>Physics-based tower stability</li>
+                    <li>Score tracking and progress saving</li>
+                    <li>Game-themed loading screen</li>
+                </ul>
+                <p><strong>Controls:</strong> Click or press SPACE to drop blocks</p>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Load and display game statistics
-        function loadGameStats() {
-            const highScores = JSON.parse(localStorage.getItem('physicsStackTower_highScores') || '[]');
-            const gamesPlayed = parseInt(localStorage.getItem('physicsStackTower_gamesPlayed') || '0');
-            
-            if (highScores.length > 0) {
-                const bestScore = Math.max(...highScores.map(score => score.score));
-                const bestLevel = Math.max(...highScores.map(score => score.level));
-                
-                document.getElementById('highScore').textContent = bestScore.toLocaleString();
-                document.getElementById('bestLevel').textContent = bestLevel;
-            }
-            
-            document.getElementById('gamesPlayed').textContent = gamesPlayed;
-        }
-        
-        // Show/hide game info
-        function showGameInfo() {
-            const gameInfo = document.getElementById('gameInfo');
-            if (gameInfo.style.display === 'none') {
-                gameInfo.style.display = 'block';
-            } else {
-                gameInfo.style.display = 'none';
-            }
-        }
-        
-        // Load stats when page loads
-        document.addEventListener('DOMContentLoaded', loadGameStats);
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
