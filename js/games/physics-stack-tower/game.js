@@ -68,10 +68,7 @@ class GameLoader {
       const step = this.loadingSteps[i];
       const progress = ((i + 1) / this.totalSteps) * 100;
       
-      // Update UI
       this.updateProgress(progress, step.text);
-      
-      // Wait for step duration
       await this.delay(step.duration);
     }
   }
@@ -97,10 +94,7 @@ class GameLoader {
    * Complete the loading process
    */
   async completeLoading() {
-    // Final progress update
     this.updateProgress(100, 'Ready to play!');
-    
-    // Reduced wait time for better responsiveness
     await this.delay(200);
     
     // Fade out loader
@@ -197,7 +191,7 @@ const gameState = {
   /** @type {Object} Game configuration */
   config: {
     canvasWidth: 800,
-    canvasHeight: 800,
+    canvasHeight: 900,
     blockHeight: 30,
     minBlockWidth: 40,
     maxBlockWidth: 200,
@@ -353,10 +347,7 @@ function initGame(level = 1) {
   );
   baseBlock.place();
   gameState.tower.push(baseBlock);
-  // Generate first moving block
   generateNewBlock();
-  
-  // Update UI
   updateUI();
   
   return gameState;
@@ -382,14 +373,10 @@ function generateNewBlock() {
   // Apply special mechanics
   const specialMechanics = gameState.currentLevelConfig?.specialMechanics;
   if (specialMechanics) {
-    console.log(`Special mechanic active: ${specialMechanics.type} - ${specialMechanics.description}`);
-    if (gameState.level === 6) {
-      console.log(`Level 6 - Block ${gameState.blocksInCurrentLevel + 1} generation`);
-    }
     switch (specialMechanics.type) {
       case 'tutorial':
         // Tutorial level - slower speed, larger blocks (already handled by level config)
-        // Add visual indicator for tutorial
+        // Add visual indicator 
         break;
       case 'size_reduction':
         // Blocks get smaller each drop - apply progressive size reduction
@@ -490,11 +477,6 @@ function dropBlock() {
   // Calculate overlap with the block below
   const overlap = calculateOverlap(currentBlock, lastTowerBlock);
   
-  // Debug overlap calculation for level 6
-  if (gameState.level === 6) {
-    console.log(`Level 6 - Overlap: ${overlap.toFixed(1)}, Current block: x=${currentBlock.position.x.toFixed(1)}, width=${currentBlock.width.toFixed(1)}, Last block: x=${lastTowerBlock.position.x.toFixed(1)}, width=${lastTowerBlock.width.toFixed(1)}`);
-  }
-  
   if (overlap <= 0) {
     // Block missed - game over
     gameState.isActive = false;
@@ -573,8 +555,8 @@ function dropBlock() {
       audioManager.playSound('blockDrop');
     }
     
-    // Check if block is too small (but be more forgiving)
-    const minWidth = Math.max(gameState.config.minBlockWidth * 0.7, 20); // More forgiving minimum width
+    // Check if block is too small
+    const minWidth = Math.max(gameState.config.minBlockWidth * 0.7, 20);
     if (currentBlock.width < minWidth) {
       gameState.isActive = false;
       
@@ -621,7 +603,6 @@ function dropBlock() {
     const newLevelConfig = getLevelConfig(gameState.level);
     const newLevelParams = calculateLevelParameters(gameState.level);
     
-    // Update level settings
     gameState.currentLevelConfig = newLevelConfig;
     gameState.currentLevelParams = newLevelParams;
     gameState.perfectThreshold = newLevelParams.perfectThreshold;
@@ -636,10 +617,7 @@ function dropBlock() {
     showLevelComplete(newLevelConfig);
   }
   
-  // Generate next block
   generateNewBlock();
-  
-  // Update UI
   updateUI();
   
   return {
@@ -674,7 +652,6 @@ function updateGame(deltaTime) {
     return;
   }
   
-  // Update current moving block
   if (gameState.currentBlock && gameState.currentBlock.isMoving) {
     gameState.currentBlock.update(deltaTime);
   }
@@ -703,13 +680,11 @@ function checkTowerStability() {
   }
   
   // If total offset is too large, tower collapses
-  // Make it much more forgiving - players are getting frustrated
-  const baseMaxOffset = gameState.config.canvasWidth * 0.6; // 60% of canvas width (much more forgiving)
-  const levelMultiplier = Math.max(0.8, 1 - (gameState.level - 1) * 0.02); // Even more forgiving for higher levels
+  const baseMaxOffset = gameState.config.canvasWidth * 0.6;
+  const levelMultiplier = Math.max(0.8, 1 - (gameState.level - 1) * 0.02);
   const maxOffset = baseMaxOffset * levelMultiplier;
   
   if (totalOffset > maxOffset) {
-    console.log(`Tower collapsed! Total offset: ${totalOffset}, Max allowed: ${maxOffset}, Tower length: ${gameState.tower.length}, Level: ${gameState.level}`);
     gameState.isActive = false;
     // Trigger collapse animation
     triggerTowerCollapse();
@@ -876,22 +851,45 @@ function showLevelComplete(newLevelConfig) {
     </div>
   `;
   
-  // Style the popup
+  // Style the popup with responsive sizing
+  const isMobile = window.innerWidth <= 480;
+  const isTablet = window.innerWidth <= 768;
+  
+  let maxWidth, width, padding, maxHeight;
+  if (isMobile) {
+    maxWidth = '250px';
+    width = '85%';
+    padding = '4px';
+    maxHeight = '60vh';
+  } else if (isTablet) {
+    maxWidth = '300px';
+    width = '80%';
+    padding = 'var(--spacing-xs)';
+    maxHeight = '65vh';
+  } else {
+    maxWidth = '350px';
+    width = '80%';
+    padding = 'var(--spacing-2xl)';
+    maxHeight = '70vh';
+  }
+  
   popup.style.cssText = `
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-primary-light) 100%);
-    padding: var(--spacing-2xl);
+    padding: ${padding};
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-lg);
     z-index: 2000;
     text-align: center;
-    max-width: 350px;
-    width: 80%;
+    max-width: ${maxWidth};
+    max-height: ${maxHeight};
+    width: ${width};
     border: 2px solid var(--color-primary);
     animation: levelCompleteSlideIn 0.5s ease-out;
+    overflow-y: auto;
   `;
   
   document.body.appendChild(popup);
@@ -1032,7 +1030,6 @@ function updateUI() {
   if (blocksElement) blocksElement.textContent = gameState.blocksPlaced;
   if (comboElement) comboElement.textContent = gameState.comboStreak;
   
-  // Update level information
   if (gameState.currentLevelConfig) {
     if (levelNameElement) levelNameElement.textContent = gameState.currentLevelConfig.name;
     if (levelDescriptionElement) {
@@ -1045,7 +1042,6 @@ function updateUI() {
     }
   }
   
-  // Update accessibility announcements
   updateAccessibilityAnnouncements();
 }
 
@@ -1133,10 +1129,7 @@ function resetGame() {
   gameState.isActive = true;
   gameState.isPaused = false;
   
-  // Force a UI update
   updateUI();
-  
-  // Force a render to ensure the screen is updated
   const renderer = getRenderer();
   if (renderer) {
     renderer.render(performance.now());
@@ -1601,10 +1594,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       // Cap deltaTime to prevent large jumps
       const cappedDeltaTime = Math.min(deltaTime, 1000 / 30); // Max 30 FPS
       
-      // Update game
       updateGame(cappedDeltaTime);
-      
-      // Render game
       const renderer = getRenderer();
       if (renderer) {
         renderer.render(currentTime);

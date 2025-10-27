@@ -41,17 +41,13 @@ class PhysicsEngine {
    * @param {number} deltaTime - Time elapsed since last update
    */
   update(blocks, deltaTime) {
-    // Update moving blocks
     blocks.forEach(block => {
       if (block.isMoving) {
         this.updateBlockPhysics(block, deltaTime);
       }
     });
     
-    // Check for collisions
     this.checkCollisions(blocks);
-    
-    // Update tower stability
     this.updateTowerStability(blocks);
   }
 
@@ -63,7 +59,6 @@ class PhysicsEngine {
   updateBlockPhysics(block, deltaTime) {
     if (!block.isMoving) return;
     
-    // Update position based on speed
     block.position.x += block.speed * deltaTime;
     
     // Apply boundary constraints

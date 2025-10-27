@@ -50,7 +50,6 @@ function showGameInfo() {
  * Initialize main menu when DOM is loaded
  */
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Main menu initialized');
     loadGameStats();
     
     // Add click event listener to game info button

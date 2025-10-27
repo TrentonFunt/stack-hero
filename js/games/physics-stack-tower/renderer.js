@@ -85,10 +85,7 @@ class GameRenderer {
     // Draw particles
     this.drawParticles(deltaTime);
     
-    // Draw UI overlays
     this.drawUIOverlays();
-    
-    // Update animations
     this.updateAnimations(deltaTime);
   }
 
@@ -265,7 +262,6 @@ class GameRenderer {
    * @param {boolean} isMoving - Whether block is moving
    */
   drawBlockBody(block, x, y, width, height, isMoving) {
-    // Validate values to prevent non-finite errors
     if (!isFinite(x) || !isFinite(y) || !isFinite(width) || !isFinite(height)) {
       return;
     }
@@ -393,7 +389,7 @@ class GameRenderer {
         return true; // Keep particle
       }
       
-      return false; // Remove particle
+      return false;
     });
   }
 
