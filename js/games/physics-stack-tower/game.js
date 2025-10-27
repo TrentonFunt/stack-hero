@@ -100,8 +100,8 @@ class GameLoader {
     // Final progress update
     this.updateProgress(100, 'Ready to play!');
     
-    // Wait a moment for user to see completion
-    await this.delay(500);
+    // Reduced wait time for better responsiveness
+    await this.delay(200);
     
     // Fade out loader
     this.fadeOut();
@@ -114,7 +114,7 @@ class GameLoader {
     if (this.loader) {
       this.loader.classList.add('fade-out');
       
-      // After fade animation completes, hide loader and show game
+      // Reduced timeout for faster transition
       setTimeout(() => {
         this.loader.style.display = 'none';
         if (this.gameContainer) {
@@ -123,7 +123,7 @@ class GameLoader {
         
         // Trigger game initialization
         this.onLoadingComplete();
-      }, 800); // Match CSS animation duration
+      }, 400); // Reduced from 800ms to 400ms
     }
   }
   
