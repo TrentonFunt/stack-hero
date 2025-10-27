@@ -607,7 +607,7 @@ body::before {
 
 @media (max-width: 480px) {
   .main-menu {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
   }
   
   .game-title {
@@ -623,10 +623,18 @@ body::before {
   }
   
   .game-stats {
-    max-width: 350px;
+    max-width: calc(100vw - 2rem);
+    margin: 0 auto;
+    padding: var(--spacing-md);
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
   }
   
   .game-info {
-    max-width: 400px;
+    max-width: calc(100vw - 2rem);
+    margin: 0 auto;
   }
 }
